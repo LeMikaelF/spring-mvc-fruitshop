@@ -2,7 +2,7 @@ package com.mikaelfrancoeur.controllers;
 
 import com.mikaelfrancoeur.api.v1.dto.CustomerDTO;
 import com.mikaelfrancoeur.api.v1.dto.CustomerListDTO;
-import com.mikaelfrancoeur.exceptions.ResourceNotFoundException;
+import com.mikaelfrancoeur.exceptions.NamedResourceNotFoundException;
 import com.mikaelfrancoeur.services.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -82,7 +81,7 @@ class CustomerControllerTest {
     @Test
     void getCustomerNotFound() throws Exception {
         //given
-        when(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFoundException.class);
+        when(customerService.getCustomerById(anyLong())).thenThrow(NamedResourceNotFoundException.class);
 
         //when
         mockMvc.perform(get(CustomerController.BASE_URL + CUSTOMER_ID))

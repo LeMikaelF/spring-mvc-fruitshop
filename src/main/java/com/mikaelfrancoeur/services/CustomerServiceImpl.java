@@ -4,7 +4,7 @@ import com.mikaelfrancoeur.api.v1.dto.CustomerDTO;
 import com.mikaelfrancoeur.api.v1.dto.CustomerListDTO;
 import com.mikaelfrancoeur.api.v1.mappers.CustomerMapper;
 import com.mikaelfrancoeur.domain.Customer;
-import com.mikaelfrancoeur.exceptions.ResourceNotFoundException;
+import com.mikaelfrancoeur.exceptions.NamedResourceNotFoundException;
 import com.mikaelfrancoeur.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomerById(Long id) {
         return customerRepository.findById(id)
                 .map(customerMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException(Customer.class, id));
+                .orElseThrow(() -> new NamedResourceNotFoundException(Customer.class, id));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
             toUpdate.setId(id);
             final Customer savedAndUpdated = customerRepository.save(toUpdate);
             return customerMapper.toDto(savedAndUpdated);
-        }).orElseThrow(() -> new ResourceNotFoundException(Customer.class, id));
+        }).orElseThrow(() -> new NamedResourceNotFoundException(Customer.class, id));
     }
 
     @Override

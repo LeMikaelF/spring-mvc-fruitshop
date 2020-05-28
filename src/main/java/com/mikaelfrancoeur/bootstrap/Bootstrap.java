@@ -2,8 +2,10 @@ package com.mikaelfrancoeur.bootstrap;
 
 import com.mikaelfrancoeur.domain.Category;
 import com.mikaelfrancoeur.domain.Customer;
+import com.mikaelfrancoeur.domain.Vendor;
 import com.mikaelfrancoeur.repositories.CategoryRepository;
 import com.mikaelfrancoeur.repositories.CustomerRepository;
+import com.mikaelfrancoeur.repositories.VendorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,17 +18,29 @@ import java.util.stream.Stream;
 public class Bootstrap implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
-
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         bootstrapCategories();
         bootstrapCustomers();
+        bootstrapVendors();
+    }
+
+    private void bootstrapVendors() {
+        final Vendor vendor1 = new Vendor();
+        vendor1.setName("name of vendor 1");
+        final Vendor vendor2 = new Vendor();
+        vendor2.setName("name of vendor 2");
+
+        vendorRepository.saveAll(Stream.of(vendor1, vendor2).collect(Collectors.toList()));
     }
 
     private void bootstrapCustomers() {

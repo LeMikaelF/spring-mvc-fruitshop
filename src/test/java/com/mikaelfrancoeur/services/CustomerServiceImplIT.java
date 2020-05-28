@@ -5,11 +5,13 @@ import com.mikaelfrancoeur.api.v1.mappers.CustomerMapper;
 import com.mikaelfrancoeur.bootstrap.Bootstrap;
 import com.mikaelfrancoeur.repositories.CategoryRepository;
 import com.mikaelfrancoeur.repositories.CustomerRepository;
+import com.mikaelfrancoeur.repositories.VendorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,12 +26,13 @@ public class CustomerServiceImplIT {
     CategoryRepository categoryRepository;
     @Autowired
     CustomerRepository customerRepository;
+    VendorRepository vendorRepository;
 
     CustomerService customerService;
 
     @BeforeEach
-    public void setup() throws Exception {
-        new Bootstrap(categoryRepository, customerRepository).run();
+    public void setup() {
+        new Bootstrap(categoryRepository, customerRepository, vendorRepository).run();
         log.debug("Number of customers in repository: {}", customerRepository.count());
         customerService = new CustomerServiceImpl(customerRepository, CustomerMapper.INSTANCE);
     }
